@@ -3,15 +3,20 @@ DeskZen Clean Sand Mix Design System
 Tactile Japandi & Mediterranean Sand aesthetic with maximum contrast and zero hover-dependency.
 Guaranteed high visibility for all buttons, tabs, badges, and metrics.
 """
+from typing import Any
+
 
 def clean_html(html_str: str) -> str:
     """Strips leading/trailing whitespace from each line so Streamlit CommonMark
     parser never misinterprets 4 leading spaces as an indented code block.
     """
-    return "\n".join(line.strip() for line in html_str.strip().splitlines() if line.strip())
+    return "\n".join(
+        line.strip() for line in html_str.strip().splitlines() if line.strip()
+    )
 
 
-SAND_THEME_CSS = clean_html("""
+SAND_THEME_CSS = clean_html(
+    """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
@@ -591,7 +596,8 @@ div[data-testid="stRadio"] label {
     transition: width 0.3s ease;
 }
 </style>
-""")
+"""
+)
 
 
 def render_header() -> str:
@@ -612,9 +618,20 @@ def render_header() -> str:
     return clean_html(html)
 
 
-def render_score_card(score: int, tier: str, entropy: float, blocked: float, balance_verdict: str = "BALANCED", delta: str = None) -> str:
+def render_score_card(
+    score: int,
+    tier: str,
+    entropy: float,
+    blocked: float,
+    balance_verdict: str = "BALANCED",
+    delta: str = None,
+) -> str:
     tier_upper = tier.upper()
-    if "HIGH_CLARITY" in tier_upper or "MINIMAL" in tier_upper or "ZEN_HARMONY" in tier_upper:
+    if (
+        "HIGH_CLARITY" in tier_upper
+        or "MINIMAL" in tier_upper
+        or "ZEN_HARMONY" in tier_upper
+    ):
         tier_class = "tier-high-clarity"
         tier_label = "Optimal Zen Flow"
     elif "MODERATE" in tier_upper:
@@ -624,7 +641,11 @@ def render_score_card(score: int, tier: str, entropy: float, blocked: float, bal
         tier_class = "tier-high-friction"
         tier_label = "High Cognitive Load"
 
-    delta_badge = f"<span style='color: #4E7557; font-weight: 800; font-size: 14px; margin-left: 8px;'>({delta})</span>" if delta else ""
+    delta_badge = (
+        f"<span style='color: #4E7557; font-weight: 800; font-size: 14px; margin-left: 8px;'>({delta})</span>"
+        if delta
+        else ""
+    )
     balance_clean = balance_verdict.replace("_", " ").title()
 
     html = f"""
@@ -657,7 +678,9 @@ def render_score_card(score: int, tier: str, entropy: float, blocked: float, bal
     return clean_html(html)
 
 
-def render_diagnosis_card(diagnosis: str, quote: str, model_name: str = "Amazon Nova Pro") -> str:
+def render_diagnosis_card(
+    diagnosis: str, quote: str, model_name: str = "Amazon Nova Pro"
+) -> str:
     html = f"""
     <div class="diagnosis-card">
         <div class="diagnosis-label">🧠 Master Cognitive Diagnosis</div>
@@ -669,7 +692,9 @@ def render_diagnosis_card(diagnosis: str, quote: str, model_name: str = "Amazon 
     return clean_html(html)
 
 
-def render_hazard_alert(spill_risk: bool, cable_snarl: bool, spill_dist_px: Any = 0, cable_count: Any = 0) -> str:
+def render_hazard_alert(
+    spill_risk: bool, cable_snarl: bool, spill_dist_px: Any = 0, cable_count: Any = 0
+) -> str:
     snippets = []
     if spill_risk:
         try:
@@ -678,11 +703,14 @@ def render_hazard_alert(spill_risk: bool, cable_snarl: bool, spill_dist_px: Any 
             dist_val = 0.0
 
         if dist_val > 0.0:
-            dist_str = f"<b>{int(round(dist_val))}px (~{round(dist_val * 0.15, 1)}cm)</b>"
+            dist_str = (
+                f"<b>{int(round(dist_val))}px (~{round(dist_val * 0.15, 1)}cm)</b>"
+            )
         else:
             dist_str = "<b>critical proximity (<25cm)</b>"
 
-        snippets.append(f"""
+        snippets.append(
+            f"""
         <div class="hazard-alert">
             <div class="hazard-title">⚠️ Critical Liquid Spill Hazard</div>
             <div class="hazard-body">
@@ -690,14 +718,16 @@ def render_hazard_alert(spill_risk: bool, cable_snarl: bool, spill_dist_px: Any 
                 Relocate beverage immediately to Zone 2 perimeter coaster.
             </div>
         </div>
-        """)
+        """
+        )
     if cable_snarl:
         try:
             c_count = int(cable_count) if cable_count is not None else 0
         except (ValueError, TypeError):
             c_count = 0
 
-        snippets.append(f"""
+        snippets.append(
+            f"""
         <div class="cable-alert">
             <div class="hazard-title">🔌 Tangled Cord Network</div>
             <div class="hazard-body">
@@ -705,7 +735,8 @@ def render_hazard_alert(spill_risk: bool, cable_snarl: bool, spill_dist_px: Any 
                 Route cords through a desk grommet or adhesive cable clip.
             </div>
         </div>
-        """)
+        """
+        )
     return clean_html("".join(snippets))
 
 
@@ -745,9 +776,17 @@ def render_central_focus_card(central_focus: dict, encroachment: dict) -> str:
         badge_icon = "🌿"
         status_text = "ZEN SANCTUARY (Liberated)"
 
-    wrist_color = "#166534" if wrist_cm >= 15.0 else ("#C84620" if wrist_cm < 10.0 else "#92400E")
-    mouse_color = "#166534" if mouse_cm >= 22.0 else ("#C84620" if mouse_cm < 14.0 else "#92400E")
-    room_color = "#166534" if breathing_room >= 80 else ("#C84620" if breathing_room < 50 else "#92400E")
+    wrist_color = (
+        "#166534" if wrist_cm >= 15.0 else ("#C84620" if wrist_cm < 10.0 else "#92400E")
+    )
+    mouse_color = (
+        "#166534" if mouse_cm >= 22.0 else ("#C84620" if mouse_cm < 14.0 else "#92400E")
+    )
+    room_color = (
+        "#166534"
+        if breathing_room >= 80
+        else ("#C84620" if breathing_room < 50 else "#92400E")
+    )
 
     enc_list_html = ""
     if enc_items:
@@ -758,12 +797,14 @@ def render_central_focus_card(central_focus: dict, encroachment: dict) -> str:
             it_dist = it.get("edge_distance_cm", 15.0)
             it_dir = it.get("clearance_directive", "")
             target_str = it_dir.split("➔")[-1].strip() if "➔" in it_dir else "Relocate"
-            items_rows.append(f"""
+            items_rows.append(
+                f"""
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid #F0E8DD; font-size: 12px;">
                 <span style="font-weight: 700; color: #241A14;">• {it_name} <small style="color: #8A7B6E;">({it_sec})</small></span>
                 <span style="font-weight: 700; color: #B85226;">{it_dist}cm away ➔ {target_str}</span>
             </div>
-            """)
+            """
+            )
         enc_list_html = f"""
         <div style="margin-top: 10px; padding-top: 8px; border-top: 1.5px solid #F0E8DD;">
             <div style="font-size: 11.5px; font-weight: 800; color: #6B5D50; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
@@ -841,14 +882,22 @@ def render_item_details(item: dict, triage: dict) -> str:
         pill_class = "pill-stow"
         pill_text = "🗄️ STOW IN DRAWER"
 
-    item_name = triage.get("item_name", item.get("semantic_name", f"Item #{item.get('id', 1)}"))
-    reason = triage.get("reasoning", "Clear this item to restore neutral arm sweep radius.")
+    item_name = triage.get(
+        "item_name", item.get("semantic_name", f"Item #{item.get('id', 1)}")
+    )
+    reason = triage.get(
+        "reasoning", "Clear this item to restore neutral arm sweep radius."
+    )
     zone = item.get("zone", "PRIMARY").replace("ZONE_", "").replace("_", " ").title()
     area_pct = item.get("area_pct", 0)
     target = item.get("target_destination", "Drawer / Organizer")
     disp_cm = item.get("displacement_cm", 0)
 
-    disp_badge = f"<span style='color: #4E7557; font-weight: 700;'>• Vector: {disp_cm}cm ➔ {target}</span>" if disp_cm > 0 else ""
+    disp_badge = (
+        f"<span style='color: #4E7557; font-weight: 700;'>• Vector: {disp_cm}cm ➔ {target}</span>"
+        if disp_cm > 0
+        else ""
+    )
 
     html = f"""
     <div>
@@ -882,8 +931,12 @@ def render_item_card(item: dict, triage: dict) -> str:
         pill_class = "pill-stow"
         pill_text = "🗄️ STOW IN DRAWER"
 
-    item_name = triage.get("item_name", item.get("semantic_name", f"Item #{item.get('id', 1)}"))
-    reason = triage.get("reasoning", "Clear this item to open up comfortable arm reach radius.")
+    item_name = triage.get(
+        "item_name", item.get("semantic_name", f"Item #{item.get('id', 1)}")
+    )
+    reason = triage.get(
+        "reasoning", "Clear this item to open up comfortable arm reach radius."
+    )
     zone = item.get("zone", "PRIMARY").replace("ZONE_", "").replace("_", " ").title()
     area_pct = item.get("area_pct", 0)
 
@@ -972,8 +1025,16 @@ def render_item_checklist_card(
         card_bg = "#FFFFFF"
         status_pill = '<span style="background: #F4EFEA; color: #6B5D50; border: 1.5px solid #D5C8B9; border-radius: 9999px; padding: 3px 10px; font-size: 11px; font-weight: 800;">PENDING ACTION</span>'
 
-    vector_badge = f'<span style="color: #4E7557; font-weight: 750;">➔ {target} ({disp_cm}cm)</span>' if disp_cm > 0 else f'<span style="color: #6B5D50; font-weight: 750;">{target}</span>'
-    dist_badge = f'<span style="color: #B85226; font-weight: 750;">• {f_dist}cm to Focus</span>' if f_dist < 90 else ""
+    vector_badge = (
+        f'<span style="color: #4E7557; font-weight: 750;">➔ {target} ({disp_cm}cm)</span>'
+        if disp_cm > 0
+        else f'<span style="color: #6B5D50; font-weight: 750;">{target}</span>'
+    )
+    dist_badge = (
+        f'<span style="color: #B85226; font-weight: 750;">• {f_dist}cm to Focus</span>'
+        if f_dist < 90
+        else ""
+    )
 
     html = f"""
     <div style="background: {card_bg}; border: 2px solid {card_border}; border-radius: 14px; padding: 12px 14px; margin-bottom: 4px; box-shadow: 0 2px 8px rgba(30,20,10,0.04);">
@@ -999,11 +1060,19 @@ def render_confirmation_prompt(
     is_fully_cleared: bool = True,
 ) -> str:
     """Renders the physical reality confirmation prompt banner."""
-    title = "🎯 Workspace Declutter State Reached!" if is_fully_cleared else "🧹 Workspace Declutter In Progress"
+    title = (
+        "🎯 Workspace Declutter State Reached!"
+        if is_fully_cleared
+        else "🧹 Workspace Declutter In Progress"
+    )
     badge_bg = "#DCFCE7" if is_fully_cleared else "#FEF3C7"
     badge_color = "#166534" if is_fully_cleared else "#92400E"
     badge_border = "#86EFAC" if is_fully_cleared else "#FCD34D"
-    badge_text = "ALL ITEMS CLEARED" if is_fully_cleared else f"{removed_count}/{total_count} ITEMS CLEARED"
+    badge_text = (
+        "ALL ITEMS CLEARED"
+        if is_fully_cleared
+        else f"{removed_count}/{total_count} ITEMS CLEARED"
+    )
 
     html = f"""
     <div style="background: linear-gradient(180deg, #FFFFFF 0%, #FAF6F0 100%); border: 2.5px solid #2D6A4F; border-radius: 18px; padding: 18px 22px; margin: 14px 0; box-shadow: 0 6px 24px rgba(45, 106, 79, 0.12);">
@@ -1048,34 +1117,63 @@ def render_studio_telemetry_ribbon(
     """
     active_score = provisional_score if removed_count > 0 else score
     delta_val = active_score - score
-    delta_pill = f'<span style="background: #DCFCE7; color: #166534; padding: 2px 8px; border-radius: 99px; font-size: 11.5px; font-weight: 800; margin-left: 6px;">+{delta_val} pts</span>' if delta_val > 0 else ""
+    delta_pill = (
+        f'<span style="background: #DCFCE7; color: #166534; padding: 2px 8px; border-radius: 99px; font-size: 11.5px; font-weight: 800; margin-left: 6px;">+{delta_val} pts</span>'
+        if delta_val > 0
+        else ""
+    )
 
-    score_color = "#2D6A4F" if active_score >= 80 else ("#B85226" if active_score < 45 else "#92400E")
-    tier_clean = "Zen Sanctuary" if active_score >= 80 else tier.replace("_", " ").title()
+    score_color = (
+        "#2D6A4F"
+        if active_score >= 80
+        else ("#B85226" if active_score < 45 else "#92400E")
+    )
+    tier_clean = (
+        "Zen Sanctuary" if active_score >= 80 else tier.replace("_", " ").title()
+    )
 
-    cf_name = central_focus.get("name", "Workstation") if central_focus else "Workstation"
-    base_room = int(round(encroachment.get("breathing_room_pct", 70.0))) if encroachment else 70
+    cf_name = (
+        central_focus.get("name", "Workstation") if central_focus else "Workstation"
+    )
+    base_room = (
+        int(round(encroachment.get("breathing_room_pct", 70.0))) if encroachment else 70
+    )
     if removed_count > 0 and total_count > 0:
-        live_room = min(100, int(round(base_room + (100 - base_room) * (removed_count / total_count))))
+        live_room = min(
+            100,
+            int(round(base_room + (100 - base_room) * (removed_count / total_count))),
+        )
     else:
         live_room = base_room
     wrist_cm = encroachment.get("wrist_clearance_cm", 15.0) if encroachment else 15.0
     mouse_cm = encroachment.get("mouse_clearance_cm", 22.0) if encroachment else 22.0
-    room_color = "#166534" if live_room >= 80 else ("#C84620" if live_room < 55 else "#92400E")
+    room_color = (
+        "#166534" if live_room >= 80 else ("#C84620" if live_room < 55 else "#92400E")
+    )
 
-    spill_risk = hazards.get("spill_risk", False) and (removed_count < total_count or total_count == 0)
-    cable_snarl = hazards.get("cable_snarl_detected", False) and (removed_count < total_count or total_count == 0)
+    spill_risk = hazards.get("spill_risk", False) and (
+        removed_count < total_count or total_count == 0
+    )
+    cable_snarl = hazards.get("cable_snarl_detected", False) and (
+        removed_count < total_count or total_count == 0
+    )
     if spill_risk:
         safety_badge = '<span style="color: #C84620; font-weight: 850;">⚠️ Liquid Spill Threat (&lt;25cm)</span>'
         safety_sub = "Relocate beverage to Zone 2 coaster"
     elif cable_snarl:
         safety_badge = '<span style="color: #92400E; font-weight: 850;">🔌 Cord Tangle Detected</span>'
-        safety_sub = f"{hazards.get('cable_lines_count', 0)} crossing segments in sweep zone"
+        safety_sub = (
+            f"{hazards.get('cable_lines_count', 0)} crossing segments in sweep zone"
+        )
     else:
         safety_badge = '<span style="color: #166534; font-weight: 850;">✅ Zero Active Hazards</span>'
         safety_sub = "Electronics & forearm sweep protected"
 
-    pct_done = int(round((removed_count / max(1, total_count)) * 100)) if total_count > 0 else 100
+    pct_done = (
+        int(round((removed_count / max(1, total_count)) * 100))
+        if total_count > 0
+        else 100
+    )
 
     html = f"""
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px;">
@@ -1141,8 +1239,12 @@ def render_iso_calibration_card(calibration: dict, iso_audit: dict) -> str:
     mouse_abd = iso_audit.get("mouse_abduction_cm", 9.5)
     findings = iso_audit.get("findings", [])
 
-    iso_color = "#166534" if iso_score >= 82 else ("#C84620" if iso_score < 62 else "#92400E")
-    iso_bg = "#F0FDF4" if iso_score >= 82 else ("#FEF2F2" if iso_score < 62 else "#FFFBEB")
+    iso_color = (
+        "#166534" if iso_score >= 82 else ("#C84620" if iso_score < 62 else "#92400E")
+    )
+    iso_bg = (
+        "#F0FDF4" if iso_score >= 82 else ("#FEF2F2" if iso_score < 62 else "#FFFBEB")
+    )
 
     findings_html = "".join(
         f'<div style="font-size: 12px; color: #3A2C22; padding: 4px 0; border-bottom: 1px dashed #E6DCCF;">• {f}</div>'
@@ -1207,7 +1309,9 @@ def render_edge_profiler_card(edge_profiler: dict) -> str:
     core_ms = edge_profiler.get("core_cv_ms", 0.0)
     fps = edge_profiler.get("realtime_fps", 30.0)
     mem_mb = edge_profiler.get("memory_mb", 4.5)
-    badge = edge_profiler.get("architecture_badge", "OpenCV 5 C++ SIMD + ARM64 Graviton3 Edge Ready")
+    badge = edge_profiler.get(
+        "architecture_badge", "OpenCV 5 C++ SIMD + ARM64 Graviton3 Edge Ready"
+    )
 
     html = f"""
     <div style="background: #231C16; color: #F5EFE6; border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; border: 1px solid #4A3B2E;">
