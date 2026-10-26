@@ -112,8 +112,8 @@ Access the live deployment on AWS EC2 directly in your browser:
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/[your-github-username]/opencv-ai-deskzen.git
-cd opencv-ai-deskzen
+git clone https://github.com/miracle-a-osigwe/deskzen.git
+cd deskzen
 
 # 2. Install dependencies
 pip install -r requirements.txt
