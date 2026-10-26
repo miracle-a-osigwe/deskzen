@@ -1,0 +1,23 @@
+# Environment & Secrets
+.env
+*.env
+.venv/
+env/
+venv/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Static uploads & crops
+static/crops/
+!static/crops/.gitkeep
+
+# Docs folder as requested
+docs/
+deskzen-key.pem
+iam_policy.json
+
+yolov8n.pt

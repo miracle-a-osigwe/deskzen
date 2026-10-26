@@ -1,0 +1,8 @@
+opencv-contrib-python
+boto3
+streamlit
+numpy
+pillow
+python-dotenv
+pydantic
+ultralytics
