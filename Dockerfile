@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Optimized for AWS Graviton (Arm64) and x86_64
-FROM --platform=$TARGETPLATFORM python:3.12-slim-bookworm
+FROM python:3.12-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
